@@ -3,8 +3,6 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
-public enum DisplayMode { Numbers, Dots, Mixed }
-
 [System.Serializable]
 public class PhaseConfig
 {

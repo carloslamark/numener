@@ -664,7 +664,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1290156568}
-        m_TargetAssemblyTypeName: StoryModeController, Assembly-CSharp
+        m_TargetAssemblyTypeName: InfinityModeController, Assembly-CSharp
         m_MethodName: OnLeftButtonClick
         m_Mode: 1
         m_Arguments:
@@ -958,6 +958,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 704394974}
   m_CullTransparentMesh: 1
+--- !u!1 &751107577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 751107578}
+  - component: {fileID: 751107579}
+  m_Layer: 0
+  m_Name: InfinityModeController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &751107578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751107577}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 70.24664, y: -34.060287, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1290156567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &751107579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751107577}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25df47912abcf0d4fab90d0438fdb189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingTime: 120
+  timeGainedOnCorrect: 5
+  timeLostOnIncorrect: 10
+  timerSlider: {fileID: 0}
+  leftButtonText: {fileID: 0}
+  rightButtonText: {fileID: 0}
+  scoreText: {fileID: 0}
+  gameOverPanel: {fileID: 0}
+  dotPrefab: {fileID: 0}
+  leftDotsContainer: {fileID: 0}
+  rightDotsContainer: {fileID: 0}
+  difficultyLevels: []
+  backgroundSprites: []
+  backgroundHolder: {fileID: 0}
 --- !u!1 &812207789
 GameObject:
   m_ObjectHideFlags: 0
@@ -1301,7 +1359,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1290156568}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StoryModeController, Assembly-CSharp
         m_MethodName: GoToNextPhase
         m_Mode: 1
@@ -1426,62 +1484,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1066285652}
   m_CullTransparentMesh: 1
---- !u!1 &1286570814
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1286570815}
-  - component: {fileID: 1286570816}
-  m_Layer: 0
-  m_Name: StoryModeController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1286570815
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1286570814}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 70.24664, y: -34.060287, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1290156567}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1286570816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1286570814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6efeebabf553f9e4594cf6a92f10146b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  victoryPanel: {fileID: 0}
-  nextPhasePanel: {fileID: 0}
-  gameOverPanel: {fileID: 0}
-  timerSlider: {fileID: 0}
-  leftButtonText: {fileID: 0}
-  rightButtonText: {fileID: 0}
-  scoreText: {fileID: 0}
-  nextPhaseText: {fileID: 0}
-  dotPrefab: {fileID: 0}
-  leftDotsContainer: {fileID: 0}
-  rightDotsContainer: {fileID: 0}
-  phaseList: []
 --- !u!1 &1290156566
 GameObject:
   m_ObjectHideFlags: 0
@@ -1511,7 +1513,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1286570815}
+  - {fileID: 751107578}
   m_Father: {fileID: 595653698}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1528,30 +1530,56 @@ MonoBehaviour:
   m_GameObject: {fileID: 1290156566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6efeebabf553f9e4594cf6a92f10146b, type: 3}
+  m_Script: {fileID: 11500000, guid: 25df47912abcf0d4fab90d0438fdb189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  victoryPanel: {fileID: 65914198}
-  nextPhasePanel: {fileID: 1682866052}
-  gameOverPanel: {fileID: 65914198}
+  startingTime: 120
+  timeGainedOnCorrect: 2
+  timeLostOnIncorrect: 5
   timerSlider: {fileID: 878911205}
   leftButtonText: {fileID: 1670567817}
   rightButtonText: {fileID: 108695943}
   scoreText: {fileID: 74160568}
-  nextPhaseText: {fileID: 2046143249}
+  gameOverPanel: {fileID: 65914198}
   dotPrefab: {fileID: 2547727964493682645, guid: 31968920ef7594d4e95efb72a6390e4b, type: 3}
   leftDotsContainer: {fileID: 812207790}
   rightDotsContainer: {fileID: 1835730948}
-  phaseList:
-  - phaseName: Campo
-    description: Campo
+  difficultyLevels:
+  - difficultyName: "F\xE1cil"
     displayMode: 0
-    totalTime: 120
-    maxSteps: 52
     minNumber: 1
     maxNumber: 9
     minDotSize: 0.4
-    maxDotSize: 1.5
+    maxDotSize: 0.8
+  - difficultyName: "M\xE9dio"
+    displayMode: 1
+    minNumber: 1
+    maxNumber: 5
+    minDotSize: 0.4
+    maxDotSize: 0.8
+  - difficultyName: "Dif\xEDcil"
+    displayMode: 2
+    minNumber: 1
+    maxNumber: 9
+    minDotSize: 0.4
+    maxDotSize: 0.8
+  - difficultyName: "Muito Dif\xEDcil"
+    displayMode: 2
+    minNumber: 5
+    maxNumber: 9
+    minDotSize: 0.4
+    maxDotSize: 0.8
+  - difficultyName: "Imposs\xEDvel"
+    displayMode: 1
+    minNumber: 5
+    maxNumber: 9
+    minDotSize: 0.4
+    maxDotSize: 0.8
+  backgroundSprites:
+  - {fileID: -6815437586108985893, guid: 0b3a86c5aa1151d46b859450c1ee9736, type: 3}
+  - {fileID: 2596552556267567030, guid: c5c14bc3dfe46d349b20ec9a8bc4cf7c, type: 3}
+  - {fileID: 1636318925241012259, guid: 30a7834e74f0de84883f48d926f49c9e, type: 3}
+  backgroundHolder: {fileID: 1451479732}
 --- !u!1 &1378614323
 GameObject:
   m_ObjectHideFlags: 0
@@ -1663,10 +1691,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 595653698}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1187, y: 622}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1451479732
 MonoBehaviour:
@@ -2042,7 +2070,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1290156568}
-        m_TargetAssemblyTypeName: StoryModeController, Assembly-CSharp
+        m_TargetAssemblyTypeName: InfinityModeController, Assembly-CSharp
         m_MethodName: OnRightButtonClick
         m_Mode: 1
         m_Arguments:
@@ -2310,7 +2338,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1290156568}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StoryModeController, Assembly-CSharp
         m_MethodName: GoToMainMenu
         m_Mode: 1
