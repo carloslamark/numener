@@ -17,13 +17,23 @@ public class MenuController : MonoBehaviour
         Application.Quit();
     }
 
+    public void GetToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
     public void StartTutorialMode()
     {
         SceneManager.LoadScene("Tutorial");
     }
 
-    public void StartHistorylMode()
+    public void StartStoryMode()
     {
-        SceneManager.LoadScene("History");
+        SceneManager.LoadScene("Story");
+    }
+
+    public void StartInfinityMode()
+    {
+        SceneManager.LoadScene("Infinity");
     }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "762373398259",
+    "project_id": "numener-477d2",
+    "storage_bucket": "numener-477d2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762373398259:android:9af06c955f9208f3c96186",
+        "android_client_info": {
+          "package_name": "com.lamark.numener"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB58TlhZ9_SdhVssLXTQerrp5Q9hsIKNeQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

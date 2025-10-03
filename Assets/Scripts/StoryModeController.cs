@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using System.Globalization;
 
 [System.Serializable]
 public class PhaseConfig
@@ -36,13 +37,17 @@ public class StoryModeController : MonoBehaviour
     public GameObject dotPrefab;
     public Transform leftDotsContainer;
     public Transform rightDotsContainer;
+    
+    [Header("Animated Backgrounds")]
+    public Animator backgroundAnimator;
+    public List<RuntimeAnimatorController> phaseBackgroundControllers;
 
     [Header("Phase Configuration")]
     public List<PhaseConfig> phaseList;
 
     private int currentPhaseIndex;
     private PhaseConfig currentPhaseConfig;
-
+    
     private float currentTime;
     private int leftNumber;
     private int rightNumber;
@@ -53,22 +58,40 @@ public class StoryModeController : MonoBehaviour
     void Start()
     {
         currentPhaseIndex = 0;
-        if (phaseList == null || phaseList.Count == 0) { return; }
+        if (phaseList == null || phaseList.Count == 0)
+        {
+            Debug.LogError("ERROR: Phase List is not configured in the Inspector.");
+            this.enabled = false;
+            return;
+        }
         SetupPhase(currentPhaseIndex);
     }
 
     void SetupPhase(int index)
     {
-        if (index >= phaseList.Count) { return; }
+        if (index >= phaseList.Count)
+        {
+            Debug.LogError("ERROR: Trying to access a non-existent phase index.");
+            this.enabled = false;
+            return;
+        }
         currentPhaseConfig = phaseList[index];
+
+        if (backgroundAnimator != null && phaseBackgroundControllers != null && index < phaseBackgroundControllers.Count)
+        {
+            backgroundAnimator.runtimeAnimatorController = phaseBackgroundControllers[index];
+        }
+
         score = 0;
         step = 0;
         currentTime = 0f;
         isGamePaused = false;
+        
         if (timerSlider != null) timerSlider.value = 0f;
         if (victoryPanel != null) victoryPanel.SetActive(false);
         if (nextPhasePanel != null) nextPhasePanel.SetActive(false);
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        
         UpdateScoreText();
         UpdateDisplay();
     }
@@ -76,6 +99,7 @@ public class StoryModeController : MonoBehaviour
     void Update()
     {
         if (!this.enabled || isGamePaused) return;
+
         if (currentTime >= currentPhaseConfig.totalTime)
         {
             Debug.Log("Time's up! Game Over.");
@@ -83,6 +107,7 @@ public class StoryModeController : MonoBehaviour
             if (gameOverPanel != null) gameOverPanel.SetActive(true);
             return;
         }
+        
         if (timerSlider != null)
         {
             currentTime += Time.deltaTime;
@@ -99,70 +124,63 @@ public class StoryModeController : MonoBehaviour
             rightNumber = Random.Range(currentPhaseConfig.minNumber, currentPhaseConfig.maxNumber + 1);
         }
 
-        // Switch para decidir os modos
         switch (currentPhaseConfig.displayMode)
         {
             case DisplayMode.Numbers:
                 SetupNumberDisplay(leftButtonText, leftDotsContainer, leftNumber);
                 SetupNumberDisplay(rightButtonText, rightDotsContainer, rightNumber);
                 break;
-
+            
             case DisplayMode.Dots:
-                SetupDotDisplay(leftButtonText, leftDotsContainer, leftNumber);
-                SetupDotDisplay(rightButtonText, rightDotsContainer, rightNumber);
+                leftNumber = UpdateDots(leftDotsContainer, leftNumber, leftButtonText);
+                rightNumber = UpdateDots(rightDotsContainer, rightNumber, rightButtonText);
                 break;
-
+            
             case DisplayMode.Mixed:
                 if (Random.Range(0, 2) == 0)
                 {
                     SetupNumberDisplay(leftButtonText, leftDotsContainer, leftNumber);
-                    SetupDotDisplay(rightButtonText, rightDotsContainer, rightNumber);
+                    rightNumber = UpdateDots(rightDotsContainer, rightNumber, rightButtonText);
                 }
                 else
                 {
-                    SetupDotDisplay(leftButtonText, leftDotsContainer, leftNumber);
+                    leftNumber = UpdateDots(leftDotsContainer, leftNumber, leftButtonText);
                     SetupNumberDisplay(rightButtonText, rightDotsContainer, rightNumber);
                 }
                 break;
+        }
+        
+        if (leftNumber == rightNumber)
+        {
+            Debug.LogWarning("Visual values became equal after dot placement adjustment. Rerolling turn.");
+            UpdateDisplay();
         }
     }
 
     void SetupNumberDisplay(TextMeshProUGUI textElement, Transform dotsContainer, int number)
     {
-        if (textElement != null)
+        if(textElement != null)
         {
             textElement.gameObject.SetActive(true);
             textElement.text = number.ToString();
         }
-        if (dotsContainer != null)
+        if(dotsContainer != null) 
         {
             dotsContainer.gameObject.SetActive(false);
         }
     }
-
-    void SetupDotDisplay(TextMeshProUGUI textElement, Transform dotsContainer, int number)
+    
+    int UpdateDots(Transform container, int amount, TextMeshProUGUI textElement)
     {
-        if (textElement != null)
-        {
-            textElement.gameObject.SetActive(false);
-        }
-        if (dotsContainer != null)
-        {
-            dotsContainer.gameObject.SetActive(true);
-            UpdateDots(dotsContainer, number);
-        }
-    }
-
-    int UpdateDots(Transform container, int amount)
-    {
+        if(textElement != null) textElement.gameObject.SetActive(false);
+        if(container != null) container.gameObject.SetActive(true);
+        
         foreach (Transform child in container) { Destroy(child.gameObject); }
-
         if (container == null) return 0;
 
         RectTransform containerRect = container.GetComponent<RectTransform>();
         float halfWidth = containerRect.rect.width / 2;
         float halfHeight = containerRect.rect.height / 2;
-
         List<RectTransform> placedDots = new List<RectTransform>();
         const int maxPlacementAttempts = 100;
 
@@ -173,11 +191,9 @@ public class StoryModeController : MonoBehaviour
             {
                 GameObject newDotObject = Instantiate(dotPrefab, container);
                 RectTransform dotRect = newDotObject.GetComponent<RectTransform>();
-
                 float randomScale = Random.Range(currentPhaseConfig.minDotSize, currentPhaseConfig.maxDotSize);
                 dotRect.localScale = new Vector3(randomScale, randomScale, 1f);
                 float dotRadius = (dotRect.rect.width / 2) * randomScale;
-
                 float randomX = Random.Range(-halfWidth + dotRadius, halfWidth - dotRadius);
                 float randomY = Random.Range(-halfHeight + dotRadius, halfHeight - dotRadius);
                 dotRect.anchoredPosition = new Vector2(randomX, randomY);
@@ -193,7 +209,6 @@ public class StoryModeController : MonoBehaviour
                         break;
                     }
                 }
-
                 if (!isOverlapping)
                 {
                     placedDots.Add(dotRect);
@@ -205,30 +220,25 @@ public class StoryModeController : MonoBehaviour
                     Destroy(newDotObject);
                 }
             }
-
             if (!positionFound)
             {
-                Debug.LogWarning("Não foi possível encontrar uma posição para a bolinha " + (i + 1) + ". O número final será ajustado.");
+                Debug.LogWarning("Could not place dot #" + (i + 1) + ". Final amount will be adjusted.");
                 break;
             }
         }
-
         return placedDots.Count;
     }
 
     void CheckForPhaseCompletion()
     {
-        // No modo infinito, utilizar essa função para colocar o Q-Learning
-        // A dificuldade decide o parâmetro a ser passado para o UpdateDisplay
-        // Ele modifica os modos
         if (step >= currentPhaseConfig.maxSteps)
         {
             currentPhaseIndex++;
             if (currentPhaseIndex < phaseList.Count)
             {
                 isGamePaused = true;
-                nextPhaseText.text = "Phase '" + currentPhaseConfig.phaseName + "' Complete!";
-                nextPhasePanel.SetActive(true);
+                if(nextPhaseText != null) nextPhaseText.text = "Phase '" + currentPhaseConfig.phaseName + "' Complete!";
+                if(nextPhasePanel != null) nextPhasePanel.SetActive(true);
             }
             else
             {
@@ -243,8 +253,15 @@ public class StoryModeController : MonoBehaviour
         }
     }
 
-    public void GoToNextPhase() { SetupPhase(currentPhaseIndex); }
-    public void GoToMainMenu() { UnityEngine.SceneManagement.SceneManager.LoadScene("GameModes"); }
+    public void GoToNextPhase()
+    {
+        SetupPhase(currentPhaseIndex);
+    }
+    
+    public void GoToMainMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameModes");
+    }
 
     public void OnLeftButtonClick()
     {
@@ -270,5 +287,8 @@ public class StoryModeController : MonoBehaviour
         CheckForPhaseCompletion();
     }
 
-    void UpdateScoreText() { scoreText.text = "Score: " + score; }
+    void UpdateScoreText()
+    {
+        scoreText.text = "Score: " + score;
+    }
 }
