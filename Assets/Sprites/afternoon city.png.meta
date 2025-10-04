@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: b8d808808064ca04b97aa4e955ff4633
+guid: a17c5415abdcc864c8cfb9a88ce7051f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7452645449854348826
-    second: city (1)_0
+      213: 1262211854690721108
+    second: city (2)_0
+  - first:
+      213: -4961446664934344331
+    second: city (2)_1
+  - first:
+      213: 1543939704146902098
+    second: city (2)_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: city (1)_0
+      name: city (2)_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 4096
-        width: 2048
-        height: 2048
+        y: 7040
+        width: 3520
+        height: 2050
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,42 +134,64 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a1eef730d8d1d6760800000000000000
-      internalID: 7452645449854348826
+      spriteID: 45d902e8ef6448110800000000000000
+      internalID: 1262211854690721108
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: city (1)_1
+      name: city (2)_1
       rect:
         serializedVersion: 2
-        x: 2048
-        y: 4096
-        width: 2048
-        height: 2048
+        x: 3520
+        y: 7040
+        width: 3520
+        height: 2050
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 1f1833c499cbfaa489bf539bc8a1ab3d
-      internalID: -1050281648
+      spriteID: 579ba8c8b86652bb0800000000000000
+      internalID: -4961446664934344331
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: city (1)_2
+      name: city (2)_2
+      rect:
+        serializedVersion: 2
+        x: 7040
+        y: 7040
+        width: 3520
+        height: 2050
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25c3c441bfc2d6510800000000000000
+      internalID: 1543939704146902098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: city (2)_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 2048
-        width: 2048
-        height: 2048
+        y: 3520
+        width: 3520
+        height: 2050
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 43eb4899e2f07684dab8d720d3259c67
-      internalID: -1584009890
+      spriteID: 84fd507b59cb7ef4d8d5bc2fc3d52712
+      internalID: -1511147208
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: city (1)_3
+      name: city (2)_4
       rect:
         serializedVersion: 2
-        x: 2048
-        y: 2048
-        width: 2048
-        height: 2048
+        x: 3520
+        y: 3520
+        width: 3520
+        height: 2050
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,20 +222,42 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e8df00f4955b7c4081baa7d97160fbb
-      internalID: 640172723
+      spriteID: 1ae78f607ac999842919081d8273930d
+      internalID: 644900088
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: city (1)_4
+      name: city (2)_5
+      rect:
+        serializedVersion: 2
+        x: 7040
+        y: 3520
+        width: 3520
+        height: 2050
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6d131a342a18334a822fea67990a9ef
+      internalID: -1116574697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: city (2)_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2048
-        height: 2048
+        width: 3520
+        height: 2050
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,20 +266,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d36e15567765c242a0fa079492892c1
-      internalID: -857286915
+      spriteID: 60406ab40378047408b59275cf1be60d
+      internalID: 1305037650
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: city (1)_5
+      name: city (2)_7
       rect:
         serializedVersion: 2
-        x: 2048
+        x: 3520
         y: 0
-        width: 2048
-        height: 2048
+        width: 3520
+        height: 2050
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -238,8 +288,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: be7b3c7fb27aa4e4fa8efa2773c0f2df
-      internalID: 522189992
+      spriteID: e174d496916a0a14ab0ff26a91a08db2
+      internalID: -1827135860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: city (2)_8
+      rect:
+        serializedVersion: 2
+        x: 7040
+        y: 0
+        width: 3520
+        height: 2050
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4098a0b02c7437549ac6cfc625ac05bb
+      internalID: -551836615
       vertices: []
       indices: 
       edges: []
@@ -248,7 +320,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ef412518f45bcbe48bdcdc23d9aaa742
+    spriteID: aa249b4309c56374ea763829c98e2555
     internalID: 0
     vertices: []
     indices: 
@@ -258,14 +330,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":2048.0,"y":2048.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":3520.0,"y":2050.0},"gridSpriteOffset":{"x":0.0,"y":1470.0},"gridSpritePadding":{"x":0.0,"y":1470.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      city (1)_0: 7452645449854348826
-      city (1)_1: -1050281648
-      city (1)_2: -1584009890
-      city (1)_3: 640172723
-      city (1)_4: -857286915
-      city (1)_5: 522189992
+      city (2)_0: 1262211854690721108
+      city (2)_1: -4961446664934344331
+      city (2)_2: 1543939704146902098
+      city (2)_3: -1511147208
+      city (2)_4: 644900088
+      city (2)_5: -1116574697
+      city (2)_6: 1305037650
+      city (2)_7: -1827135860
+      city (2)_8: -551836615
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

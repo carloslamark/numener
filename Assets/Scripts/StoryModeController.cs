@@ -21,6 +21,11 @@ public class PhaseConfig
 
 public class StoryModeController : MonoBehaviour
 {
+    [Header("Player Progress")]
+    public RectTransform characterIcon;
+    public RectTransform startPosition;
+    public RectTransform endPosition;
+
     [Header("UI Panels")]
     public GameObject victoryPanel;
     public GameObject nextPhasePanel;
@@ -100,19 +105,24 @@ public class StoryModeController : MonoBehaviour
     {
         if (!this.enabled || isGamePaused) return;
 
-        if (currentTime >= currentPhaseConfig.totalTime)
+        if (currentTime < currentPhaseConfig.totalTime)
+        {
+            currentTime += Time.deltaTime;
+            currentTime = Mathf.Clamp(currentTime, 0, currentPhaseConfig.totalTime);
+
+            if (timerSlider != null)
+            {
+                timerSlider.value = currentTime / currentPhaseConfig.totalTime;
+            }
+        }
+        else
         {
             Debug.Log("Time's up! Game Over.");
             isGamePaused = true;
             if (gameOverPanel != null) gameOverPanel.SetActive(true);
-            return;
         }
-        
-        if (timerSlider != null)
-        {
-            currentTime += Time.deltaTime;
-            timerSlider.value = currentTime / currentPhaseConfig.totalTime;
-        }
+
+        UpdateCharacterPosition();
     }
 
     void UpdateDisplay()
@@ -251,6 +261,20 @@ public class StoryModeController : MonoBehaviour
         {
             UpdateDisplay();
         }
+    }
+
+    void UpdateCharacterPosition()
+    {
+        if (characterIcon == null) return;
+
+        float progressByTime = currentTime / currentPhaseConfig.totalTime;
+        float progressBySteps = (float)step / currentPhaseConfig.maxSteps;
+
+        float finalProgress = Mathf.Max(progressByTime, progressBySteps);
+
+        finalProgress = Mathf.Clamp01(finalProgress);
+
+        characterIcon.anchoredPosition = Vector2.Lerp(startPosition.anchoredPosition, endPosition.anchoredPosition, finalProgress);
     }
 
     public void GoToNextPhase()

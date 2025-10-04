@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: 5e102648b72ba514a9f9ae099ae5542e
+guid: 01e82be75b984984d9bd4449620f2a8e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6560479183864436932
-    second: night forest (1)_0
+      213: 4216058899710470892
+    second: skin_default_0
+  - first:
+      213: 3803068433577084358
+    second: skin_default_1
+  - first:
+      213: 5079114875649251830
+    second: skin_default_2
+  - first:
+      213: -2758911810232733731
+    second: skin_default_3
+  - first:
+      213: -3578002503903714351
+    second: skin_default_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +125,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: night forest_0
+      name: skin_default_0
       rect:
         serializedVersion: 2
         x: 0
@@ -126,16 +138,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 605fc15241c8c0e4db4c1595bc9f3315
-      internalID: 858867752
+      spriteID: ceaed5d4b33728a30800000000000000
+      internalID: 4216058899710470892
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: night forest_1
+      name: skin_default_1
       rect:
         serializedVersion: 2
         x: 2048
@@ -148,16 +160,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 74465718019c1764985686c515589fc5
-      internalID: -795863649
+      spriteID: 6c50ddf379637c430800000000000000
+      internalID: 3803068433577084358
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: night forest_2
+      name: skin_default_2
       rect:
         serializedVersion: 2
         x: 0
@@ -170,16 +182,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: e3a935186d805cb40a9e2c3c4cef0666
-      internalID: -786539372
+      spriteID: 6f9d970b114ac7640800000000000000
+      internalID: 5079114875649251830
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: night forest_3
+      name: skin_default_3
       rect:
         serializedVersion: 2
         x: 2048
@@ -192,16 +204,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 30e0156cf0011614e8240c9fa22cb638
-      internalID: 1623154532
+      spriteID: ddfa270735066b9d0800000000000000
+      internalID: -2758911810232733731
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: night forest_4
+      name: skin_default_4
       rect:
         serializedVersion: 2
         x: 0
@@ -214,32 +226,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: cb543a0a3bc81d440a5f9b0251b5b694
-      internalID: -508702110
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: night forest_5
-      rect:
-        serializedVersion: 2
-        x: 2048
-        y: 0
-        width: 2048
-        height: 2048
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4070a52771fded04f85f4ba92ecf2902
-      internalID: 1060091850
+      spriteID: 1d36c550ea1685ec0800000000000000
+      internalID: -3578002503903714351
       vertices: []
       indices: 
       edges: []
@@ -248,7 +238,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 9a641f8a21485fd4088b5010d84293ec
+    spriteID: 505dec5819de7f7479c983bce054dbce
     internalID: 0
     vertices: []
     indices: 
@@ -260,12 +250,11 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":2048.0,"y":2048.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      night forest_0: 858867752
-      night forest_1: -795863649
-      night forest_2: -786539372
-      night forest_3: 1623154532
-      night forest_4: -508702110
-      night forest_5: 1060091850
+      skin_default_0: 4216058899710470892
+      skin_default_1: 3803068433577084358
+      skin_default_2: 5079114875649251830
+      skin_default_3: -2758911810232733731
+      skin_default_4: -3578002503903714351
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
