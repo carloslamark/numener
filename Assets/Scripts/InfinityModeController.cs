@@ -2,11 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
-using System.Text; // Necessário para salvar/carregar
-using System.Globalization; // Necessário para ler os números corretamente
+using System.Collections;
+using System.Text;
+using System.Globalization;
 
-// Enum para os modos de exibição, em um arquivo separado chamado GameEnums.cs
-// public enum DisplayMode { Numbers, Dots, Mixed }
 
 [System.Serializable]
 public class DifficultyConfig
@@ -26,12 +25,22 @@ public class InfinityModeController : MonoBehaviour
     public float startingTime = 120f;
     public float timeGainedOnCorrect = 2f;
     public float timeLostOnIncorrect = 5f;
+    public int scoreToCompleteLevel = 52;
+
+    [Header("Feedback Visuals")]
+    public float feedbackDelay = 0.75f;
+    public Color correctColor = Color.green;
+    public Color incorrectColor = Color.red;
+
+    [Header("Player Progress")]
+    public RectTransform characterIcon;
+    public RectTransform startPosition;
+    public RectTransform endPosition;
 
     [Header("UI Elements")]
     public Slider timerSlider;
     public TextMeshProUGUI leftButtonText;
     public TextMeshProUGUI rightButtonText;
-    public TextMeshProUGUI scoreText;
     public TextMeshProUGUI difficultyText;
     public GameObject gameOverPanel;
 
@@ -43,16 +52,15 @@ public class InfinityModeController : MonoBehaviour
     [Header("Difficulty Levels (5 total)")]
     public List<DifficultyConfig> difficultyLevels;
 
-    [Header("Backgrounds")]
-    public List<Sprite> backgroundSprites;
-    public Image backgroundHolder;
+    [Header("Animated Backgrounds")]
+    public Animator backgroundAnimator;
+    public List<RuntimeAnimatorController> backgroundAnimControllers;
 
     [Header("Q-Learning Parameters")]
     [Range(0, 1)] public float learningRate = 0.1f;
     [Range(0, 1)] public float discountFactor = 0.9f;
     [Range(0, 1)] public float explorationRate = 0.1f;
 
-    // --- Variáveis do Q-Learning ---
     private float[,] qTable;
     private const int PERFORMANCE_STATES = 3;
     private const int TOTAL_STATES = 5 * PERFORMANCE_STATES;
@@ -60,16 +68,17 @@ public class InfinityModeController : MonoBehaviour
     private int previousState;
     private int previousAction;
     private float rewardSumForWindow;
-    private int currentDifficultyIndex = 0; // Começa na dificuldade média
+    private int currentDifficultyIndex = 2;
     private const int PERFORMANCE_WINDOW = 5;
 
-    // --- Variáveis de estado do jogo ---
     private float currentTime;
     private int leftNumber;
     private int rightNumber;
     private int score;
     private int step;
     private bool isGamePaused = false;
+
+    private Color defaultButtonColor;
 
     void Start()
     {
@@ -86,12 +95,12 @@ public class InfinityModeController : MonoBehaviour
         currentTime = startingTime;
         score = 0;
         step = 0;
+        isGamePaused = false;
 
         previousState = GetCurrentState();
         previousAction = GetBestAction(previousState);
 
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
-        UpdateScoreText();
         UpdateDisplay();
         UpdateBackground();
         UpdateDifficultyText();
@@ -105,19 +114,25 @@ public class InfinityModeController : MonoBehaviour
     void Update()
     {
         if (isGamePaused) return;
+
         currentTime -= Time.deltaTime;
+
         if (timerSlider != null)
         {
             timerSlider.value = currentTime / startingTime;
         }
+
         if (currentTime <= 0)
         {
             currentTime = 0;
             isGamePaused = true;
             if (gameOverPanel != null) gameOverPanel.SetActive(true);
         }
+
+        UpdateCharacterPosition();
     }
 
+    // --- FUNÇÕES DE CARREGAMENTO E SALVAMENTO ---
     void LoadQTable()
     {
         string savedTable = PlayerPrefs.GetString("QTable_InfinityMode", "");
@@ -173,6 +188,92 @@ public class InfinityModeController : MonoBehaviour
         Debug.Log("Q-Table saved to PlayerPrefs.");
     }
 
+
+    void UpdateCharacterPosition()
+    {
+        if (characterIcon == null || startPosition == null || endPosition == null) return;
+
+        float scoreInCurrentCycle = score % scoreToCompleteLevel;
+        float progress = scoreInCurrentCycle / (float)scoreToCompleteLevel;
+
+        progress = Mathf.Clamp01(progress);
+
+        characterIcon.anchoredPosition = Vector2.Lerp(startPosition.anchoredPosition, endPosition.anchoredPosition, progress);
+    }
+
+    private IEnumerator ShowFeedbackSequence(bool wasCorrect)
+    {
+        isGamePaused = true;
+
+        Image correctButtonImage;
+        Image incorrectButtonImage;
+
+        if (leftNumber > rightNumber)
+        {
+            correctButtonImage = leftButtonText.GetComponentInParent<Image>();
+            incorrectButtonImage = rightButtonText.GetComponentInParent<Image>();
+        }
+        else
+        {
+            correctButtonImage = rightButtonText.GetComponentInParent<Image>();
+            incorrectButtonImage = leftButtonText.GetComponentInParent<Image>();
+        }
+
+        if (defaultButtonColor == default)
+        {
+            defaultButtonColor = correctButtonImage.color;
+        }
+
+        correctButtonImage.color = correctColor;
+        incorrectButtonImage.color = incorrectColor;
+
+        if (wasCorrect) OnCorrectAnswer();
+        else OnIncorrectAnswer();
+
+        yield return new WaitForSeconds(feedbackDelay);
+
+        correctButtonImage.color = defaultButtonColor;
+        incorrectButtonImage.color = defaultButtonColor;
+
+        FinishTurn();
+
+        isGamePaused = false;
+    }
+
+
+    void FinishTurn()
+    {
+        step++;
+
+        if (step % PERFORMANCE_WINDOW == 0 && step > 0)
+        {
+            AdjustDifficultyQLearning();
+        }
+
+        if (step > 0 && step % 52 == 0)
+        {
+            UpdateBackground();
+        }
+
+        UpdateDisplay();
+    }
+
+    public void OnLeftButtonClick()
+    {
+        if (isGamePaused) return;
+
+        bool wasCorrect = leftNumber > rightNumber;
+        StartCoroutine(ShowFeedbackSequence(wasCorrect));
+    }
+
+    public void OnRightButtonClick()
+    {
+        if (isGamePaused) return;
+
+        bool wasCorrect = rightNumber > leftNumber;
+        StartCoroutine(ShowFeedbackSequence(wasCorrect));
+    }
+
     int GetCurrentState()
     {
         int performanceState;
@@ -183,12 +284,25 @@ public class InfinityModeController : MonoBehaviour
         return (currentDifficultyIndex * PERFORMANCE_STATES) + performanceState;
     }
 
+
+
     void OnCorrectAnswer()
     {
+        int oldScore = score;
         score++;
+
         currentTime += timeGainedOnCorrect;
         if (currentTime > startingTime) currentTime = startingTime;
         rewardSumForWindow += 1f;
+
+        if ((oldScore / scoreToCompleteLevel) < (score / scoreToCompleteLevel))
+        {
+            UpdateBackground();
+
+            if (characterIcon != null) characterIcon.anchoredPosition = startPosition.anchoredPosition;
+
+            Debug.Log("LEVEL UP! Changing background and resetting character.");
+        }
     }
 
     void OnIncorrectAnswer()
@@ -259,37 +373,6 @@ public class InfinityModeController : MonoBehaviour
         UpdateDifficultyText();
     }
 
-    void FinishTurn()
-    {
-        step++;
-        UpdateScoreText();
-        if (step % PERFORMANCE_WINDOW == 0 && step > 0)
-        {
-            AdjustDifficultyQLearning();
-        }
-        UpdateDisplay();
-        if (step > 0 && step % 52 == 0)
-        {
-            UpdateBackground();
-        }
-    }
-
-    public void OnLeftButtonClick()
-    {
-        if (isGamePaused) return;
-        if (leftNumber > rightNumber) OnCorrectAnswer();
-        else OnIncorrectAnswer();
-        FinishTurn();
-    }
-
-    public void OnRightButtonClick()
-    {
-        if (isGamePaused) return;
-        if (rightNumber > leftNumber) OnCorrectAnswer();
-        else OnIncorrectAnswer();
-        FinishTurn();
-    }
-
     void UpdateDisplay()
     {
         DifficultyConfig currentConfig = difficultyLevels[currentDifficultyIndex];
@@ -309,19 +392,19 @@ public class InfinityModeController : MonoBehaviour
                 break;
 
             case DisplayMode.Dots:
-                SetupDotDisplay(leftButtonText, leftDotsContainer, leftNumber, true);
-                SetupDotDisplay(rightButtonText, rightDotsContainer, rightNumber, true);
+                leftNumber = UpdateDots(leftDotsContainer, leftNumber);
+                rightNumber = UpdateDots(rightDotsContainer, rightNumber);
                 break;
 
             case DisplayMode.Mixed:
                 if (Random.Range(0, 2) == 0)
                 {
                     SetupNumberDisplay(leftButtonText, leftDotsContainer, leftNumber);
-                    SetupDotDisplay(rightButtonText, rightDotsContainer, rightNumber, true);
+                    rightNumber = UpdateDots(rightDotsContainer, rightNumber);
                 }
                 else
                 {
-                    SetupDotDisplay(leftButtonText, leftDotsContainer, leftNumber, true);
+                    leftNumber = UpdateDots(leftDotsContainer, leftNumber);
                     SetupNumberDisplay(rightButtonText, rightDotsContainer, rightNumber);
                 }
                 break;
@@ -329,7 +412,7 @@ public class InfinityModeController : MonoBehaviour
 
         if (leftNumber == rightNumber)
         {
-            Debug.LogWarning("Visual values became equal after dot placement adjustment. Rerolling turn.");
+            Debug.LogWarning("Visual values became equal. Rerolling turn.");
             UpdateDisplay();
         }
     }
@@ -347,35 +430,15 @@ public class InfinityModeController : MonoBehaviour
         }
     }
 
-    void SetupDotDisplay(TextMeshProUGUI textElement, Transform dotsContainer, int number, bool shouldUpdateLogicVariable)
-    {
-        if (textElement != null)
-        {
-            textElement.gameObject.SetActive(false);
-        }
-        if (dotsContainer != null)
-        {
-            dotsContainer.gameObject.SetActive(true);
-            int actualDots = UpdateDots(dotsContainer, number);
-
-            if (shouldUpdateLogicVariable)
-            {
-                if (dotsContainer == leftDotsContainer)
-                {
-                    leftNumber = actualDots;
-                }
-                else
-                {
-                    rightNumber = actualDots;
-                }
-            }
-        }
-    }
-
     int UpdateDots(Transform container, int amount)
     {
         foreach (Transform child in container) { Destroy(child.gameObject); }
         if (container == null) return 0;
+
+        // Ativa o container e desativa os textos correspondentes
+        if (container == leftDotsContainer) leftButtonText.gameObject.SetActive(false);
+        if (container == rightDotsContainer) rightButtonText.gameObject.SetActive(false);
+        container.gameObject.SetActive(true);
 
         DifficultyConfig currentConfig = difficultyLevels[currentDifficultyIndex];
         RectTransform containerRect = container.GetComponent<RectTransform>();
@@ -429,8 +492,6 @@ public class InfinityModeController : MonoBehaviour
         return placedDots.Count;
     }
 
-    void UpdateScoreText() { scoreText.text = "Score: " + score; }
-
     void UpdateDifficultyText()
     {
         if (difficultyText != null)
@@ -439,12 +500,18 @@ public class InfinityModeController : MonoBehaviour
         }
     }
 
-    public void GoToMainMenu() { UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu"); }
-
+    public void GoToGameModes()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameModes");
+    }
     void UpdateBackground()
     {
-        if (backgroundSprites == null || backgroundSprites.Count == 0 || backgroundHolder == null) return;
-        int backgroundIndex = (step / 52) % backgroundSprites.Count;
-        backgroundHolder.sprite = backgroundSprites[backgroundIndex];
+        if (backgroundAnimator == null || backgroundAnimControllers == null || backgroundAnimControllers.Count == 0) return;
+
+        int backgroundIndex = (score / scoreToCompleteLevel) % backgroundAnimControllers.Count;
+
+        Debug.Log("Tentando trocar para o background no índice " + backgroundIndex + ", que é o controller: " + backgroundAnimControllers[backgroundIndex].name);
+
+        backgroundAnimator.runtimeAnimatorController = backgroundAnimControllers[backgroundIndex];
     }
 }

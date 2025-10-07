@@ -1,22 +1,22 @@
 fileFormatVersion: 2
-guid: 01e82be75b984984d9bd4449620f2a8e
+guid: e4045f780c5daa141a8975725fe295c6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4216058899710470892
-    second: skin_default_0
+      213: 1119323042326817031
+    second: skin_default (1)_0
   - first:
-      213: 3803068433577084358
-    second: skin_default_1
+      213: 242738541825130684
+    second: skin_default (1)_1
   - first:
-      213: 5079114875649251830
-    second: skin_default_2
+      213: 8478884825206345996
+    second: skin_default (1)_2
   - first:
-      213: -2758911810232733731
-    second: skin_default_3
+      213: 6648891616536075702
+    second: skin_default (1)_3
   - first:
-      213: -3578002503903714351
-    second: skin_default_4
+      213: -2472264985203951390
+    second: skin_default (1)_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -125,57 +125,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: skin_default_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 4096
-        width: 2048
-        height: 2048
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ceaed5d4b33728a30800000000000000
-      internalID: 4216058899710470892
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skin_default_1
-      rect:
-        serializedVersion: 2
-        x: 2048
-        y: 4096
-        width: 2048
-        height: 2048
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6c50ddf379637c430800000000000000
-      internalID: 3803068433577084358
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skin_default_2
+      name: skin_default (1)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 2048
-        width: 2048
-        height: 2048
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,20 +140,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6f9d970b114ac7640800000000000000
-      internalID: 5079114875649251830
+      spriteID: 709acc66062a88f00800000000000000
+      internalID: 1119323042326817031
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skin_default_3
+      name: skin_default (1)_1
       rect:
         serializedVersion: 2
-        x: 2048
+        x: 1024
         y: 2048
-        width: 2048
-        height: 2048
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -206,20 +162,64 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ddfa270735066b9d0800000000000000
-      internalID: -2758911810232733731
+      spriteID: cb088ceea616e5300800000000000000
+      internalID: 242738541825130684
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skin_default_4
+      name: skin_default (1)_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1024
+        width: 1024
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c01dfd153dc0ba570800000000000000
+      internalID: 8478884825206345996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skin_default (1)_3
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1024
+        width: 1024
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bd94b9a2bb954c50800000000000000
+      internalID: 6648891616536075702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skin_default (1)_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2048
-        height: 2048
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,8 +228,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1d36c550ea1685ec0800000000000000
-      internalID: -3578002503903714351
+      spriteID: 2e838463810c0bdd0800000000000000
+      internalID: -2472264985203951390
       vertices: []
       indices: 
       edges: []
@@ -238,7 +238,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 505dec5819de7f7479c983bce054dbce
+    spriteID: 414a7de2f8a050945a9e9645c208f33b
     internalID: 0
     vertices: []
     indices: 
@@ -248,13 +248,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":2048.0,"y":2048.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":1024.0,"y":1024.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      skin_default_0: 4216058899710470892
-      skin_default_1: 3803068433577084358
-      skin_default_2: 5079114875649251830
-      skin_default_3: -2758911810232733731
-      skin_default_4: -3578002503903714351
+      skin_default (1)_0: 1119323042326817031
+      skin_default (1)_1: 242738541825130684
+      skin_default (1)_2: 8478884825206345996
+      skin_default (1)_3: 6648891616536075702
+      skin_default (1)_4: -2472264985203951390
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

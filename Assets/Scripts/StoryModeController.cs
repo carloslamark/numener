@@ -35,7 +35,6 @@ public class StoryModeController : MonoBehaviour
     public Slider timerSlider;
     public TextMeshProUGUI leftButtonText;
     public TextMeshProUGUI rightButtonText;
-    public TextMeshProUGUI scoreText;
     public TextMeshProUGUI nextPhaseText;
 
     [Header("Dot Display System")]
@@ -97,7 +96,6 @@ public class StoryModeController : MonoBehaviour
         if (nextPhasePanel != null) nextPhasePanel.SetActive(false);
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
         
-        UpdateScoreText();
         UpdateDisplay();
     }
 
@@ -282,7 +280,7 @@ public class StoryModeController : MonoBehaviour
         SetupPhase(currentPhaseIndex);
     }
     
-    public void GoToMainMenu()
+    public void GoToGameModes()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameModes");
     }
@@ -293,7 +291,6 @@ public class StoryModeController : MonoBehaviour
         if (leftNumber > rightNumber)
         {
             score++;
-            UpdateScoreText();
         }
         step++;
         CheckForPhaseCompletion();
@@ -305,14 +302,8 @@ public class StoryModeController : MonoBehaviour
         if (rightNumber > leftNumber)
         {
             score++;
-            UpdateScoreText();
         }
         step++;
         CheckForPhaseCompletion();
-    }
-
-    void UpdateScoreText()
-    {
-        scoreText.text = "Score: " + score;
     }
 }

@@ -29,7 +29,7 @@ public class MenuController : MonoBehaviour
 
     public void StartStoryMode()
     {
-        SceneManager.LoadScene("Story");
+        SceneManager.LoadScene("History");
     }
 
     public void StartInfinityMode()
