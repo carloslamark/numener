@@ -19,12 +19,24 @@ public class PhaseConfig
     public float maxDotSize = 1.5f;
 }
 
+public class PhaseResult
+{
+    public int phaseIndex;
+    public string phaseName;
+    public int score;
+    public float timeTaken;
+}
+
 public class StoryModeController : MonoBehaviour
 {
     [Header("Player Progress")]
     public RectTransform characterIcon;
     public RectTransform startPosition;
     public RectTransform endPosition;
+
+    [Header("Save Score UI")]
+    public GameObject saveScorePanel;
+    public TMP_InputField nameInputField;
 
     [Header("UI Panels")]
     public GameObject victoryPanel;
@@ -58,6 +70,7 @@ public class StoryModeController : MonoBehaviour
     private int score;
     private int step;
     private bool isGamePaused = false;
+    private List<PhaseResult> sessionResults = new List<PhaseResult>();
 
     void Start()
     {
@@ -115,9 +128,8 @@ public class StoryModeController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Time's up! Game Over.");
-            isGamePaused = true;
-            if (gameOverPanel != null) gameOverPanel.SetActive(true);
+            step = currentPhaseConfig.maxSteps;
+            CheckForPhaseCompletion();
         }
 
         UpdateCharacterPosition();
@@ -241,6 +253,15 @@ public class StoryModeController : MonoBehaviour
     {
         if (step >= currentPhaseConfig.maxSteps)
         {
+            var result = new PhaseResult
+            {
+                phaseIndex = currentPhaseIndex,
+                phaseName = currentPhaseConfig.phaseName,
+                score = this.score,
+                timeTaken = this.currentTime
+            };
+            sessionResults.Add(result);
+
             currentPhaseIndex++;
             if (currentPhaseIndex < phaseList.Count)
             {
@@ -251,8 +272,9 @@ public class StoryModeController : MonoBehaviour
             else
             {
                 isGamePaused = true;
-                Debug.Log("YOU WON THE GAME!");
-                if (victoryPanel != null) victoryPanel.SetActive(true);
+                Debug.Log("Game finished");
+                if (saveScorePanel != null) saveScorePanel.SetActive(true);
+                else if (victoryPanel != null) victoryPanel.SetActive(true);
             }
         }
         else
@@ -273,6 +295,47 @@ public class StoryModeController : MonoBehaviour
         finalProgress = Mathf.Clamp01(finalProgress);
 
         characterIcon.anchoredPosition = Vector2.Lerp(startPosition.anchoredPosition, endPosition.anchoredPosition, finalProgress);
+    }
+
+    public async void OnSaveScoreButtonClick()
+    {
+        string playerName = nameInputField.text;
+        if (string.IsNullOrEmpty(playerName))
+        {
+            Debug.LogWarning("Player name is empty. Cannot save score.");
+            return;
+        }
+
+        if (saveScorePanel != null) saveScorePanel.SetActive(false);
+        if (victoryPanel != null) victoryPanel.SetActive(true);
+
+        if (FirebaseManager.Instance != null)
+        {
+            await FirebaseManager.Instance.SaveStoryModeResult(playerName, sessionResults);
+        }
+    }
+
+    public async void TestSaveToFirebase()
+    {
+        Debug.Log("Botão de teste de salvamento foi clicado!");
+
+        if (FirebaseManager.Instance != null)
+        {
+            // Vamos criar dados de teste para enviar
+            string testPlayerName = "JogadorDeTeste";
+            List<PhaseResult> testResults = new List<PhaseResult>
+        {
+            new PhaseResult { phaseName = "Fase 1 Teste", score = 150, timeTaken = 85.5f }
+        };
+
+            // Chamamos a função do FirebaseManager que faz o trabalho pesado
+            Debug.Log("Enviando dados de teste para o Firebase...");
+           await FirebaseManager.Instance.SaveStoryModeResult(testPlayerName, testResults);
+        }
+        else
+        {
+            Debug.LogError("ERRO: Instância do FirebaseManager não foi encontrada!");
+        }
     }
 
     public void GoToNextPhase()

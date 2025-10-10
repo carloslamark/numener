@@ -105,4 +105,33 @@ public class FirebaseManager : MonoBehaviour
         await playerDocRef.UpdateAsync(updates);
         Debug.Log($"Dados do jogador salvos: {dataType}");
     }
+
+    public async Task SaveStoryModeResult(string playerName, List<PhaseResult> results)
+    {
+        string userId = User != null ? User.UserId : "anonymous";
+
+        List<Dictionary<string, object>> phaseDataList = new List<Dictionary<string, object>>();
+        foreach (var result in results)
+        {
+            var phaseData = new Dictionary<string, object>
+        {
+            { "phaseName", result.phaseName },
+            { "score", result.score },
+            { "timeTaken", result.timeTaken }
+        };
+            phaseDataList.Add(phaseData);
+        }
+
+        var dataToSave = new Dictionary<string, object>
+    {
+        { "playerName", playerName },
+        { "userId", userId },
+        { "timestamp", Timestamp.GetCurrentTimestamp() },
+        { "phases", phaseDataList }
+    };
+
+        await DB.Collection("storyModeResults").AddAsync(dataToSave);
+
+        Debug.Log("Story Mode results saved to Firestore!");
+    }
 }
