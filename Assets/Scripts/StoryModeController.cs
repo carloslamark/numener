@@ -1,8 +1,7 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System.Collections.Generic;
-using System.Globalization;
 
 [System.Serializable]
 public class PhaseConfig
@@ -17,14 +16,6 @@ public class PhaseConfig
     [Header("Dot Customization")]
     public float minDotSize = 0.8f;
     public float maxDotSize = 1.5f;
-}
-
-public class PhaseResult
-{
-    public int phaseIndex;
-    public string phaseName;
-    public int score;
-    public float timeTaken;
 }
 
 public class StoryModeController : MonoBehaviour
@@ -72,6 +63,9 @@ public class StoryModeController : MonoBehaviour
     private bool isGamePaused = false;
     private List<PhaseResult> sessionResults = new List<PhaseResult>();
 
+    //private string userId;
+    //private DatabaseReference reference;
+
     void Start()
     {
         currentPhaseIndex = 0;
@@ -82,6 +76,30 @@ public class StoryModeController : MonoBehaviour
             return;
         }
         SetupPhase(currentPhaseIndex);
+        if (SaveManager.Instance != null && characterIcon != null)
+        {
+            // Pega o Animator do ícone do personagem
+            Animator charAnimator = characterIcon.GetComponent<Animator>();
+            if (charAnimator != null)
+            {
+                // Pede ao SaveManager o controller da skin equipada
+                RuntimeAnimatorController equippedController = SaveManager.Instance.GetEquippedSkinController();
+
+                if (equippedController != null)
+                {
+                    // Atribui o novo "cérebro" de animação
+                    charAnimator.runtimeAnimatorController = equippedController;
+                }
+                else
+                {
+                    Debug.LogWarning("Nenhum Animator Controller de skin foi encontrado!");
+                }
+            }
+            else
+            {
+                Debug.LogError("O objeto CharacterIcon não tem um componente Animator!");
+            }
+        }
     }
 
     void SetupPhase(int index)
@@ -262,6 +280,8 @@ public class StoryModeController : MonoBehaviour
             };
             sessionResults.Add(result);
 
+            Debug.Log(sessionResults);
+
             currentPhaseIndex++;
             if (currentPhaseIndex < phaseList.Count)
             {
@@ -297,45 +317,17 @@ public class StoryModeController : MonoBehaviour
         characterIcon.anchoredPosition = Vector2.Lerp(startPosition.anchoredPosition, endPosition.anchoredPosition, finalProgress);
     }
 
-    public async void OnSaveScoreButtonClick()
+    public void CreateUser()
     {
-        string playerName = nameInputField.text;
-        if (string.IsNullOrEmpty(playerName))
-        {
-            Debug.LogWarning("Player name is empty. Cannot save score.");
-            return;
-        }
+        Debug.Log(sessionResults.Count);
+        Debug.Log(sessionResults[0].score);
 
-        if (saveScorePanel != null) saveScorePanel.SetActive(false);
-        if (victoryPanel != null) victoryPanel.SetActive(true);
+        //UserHistory user = new UserHistory(nameInputField.text, sessionResults);
+        //string json = JsonUtility.ToJson(user);
 
-        if (FirebaseManager.Instance != null)
-        {
-            await FirebaseManager.Instance.SaveStoryModeResult(playerName, sessionResults);
-        }
-    }
+        //reference.Child("users").Child(userId).SetRawJsonValueAsync(json);
 
-    public async void TestSaveToFirebase()
-    {
-        Debug.Log("Botão de teste de salvamento foi clicado!");
-
-        if (FirebaseManager.Instance != null)
-        {
-            // Vamos criar dados de teste para enviar
-            string testPlayerName = "JogadorDeTeste";
-            List<PhaseResult> testResults = new List<PhaseResult>
-        {
-            new PhaseResult { phaseName = "Fase 1 Teste", score = 150, timeTaken = 85.5f }
-        };
-
-            // Chamamos a função do FirebaseManager que faz o trabalho pesado
-            Debug.Log("Enviando dados de teste para o Firebase...");
-           await FirebaseManager.Instance.SaveStoryModeResult(testPlayerName, testResults);
-        }
-        else
-        {
-            Debug.LogError("ERRO: Instância do FirebaseManager não foi encontrada!");
-        }
+        GoToGameModes();
     }
 
     public void GoToNextPhase()

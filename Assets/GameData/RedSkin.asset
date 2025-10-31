@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e47be6d69b087439f6334ab0c8fb32, type: 3}
+  m_Name: RedSkin
+  m_EditorClassIdentifier: Assembly-CSharp::SkinData
+  skinID: red
+  skinName: Numenermelho
+  shopIcon: {fileID: -1885678456191161219, guid: 7739ee886ab7c0c4ba0c8a3746f54840, type: 3}
+  animatorController: {fileID: 9100000, guid: cf17e406a0723014294d3d72bc5ed9fd, type: 2}
+  isUnlockedByDefault: 0

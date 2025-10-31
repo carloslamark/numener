@@ -104,6 +104,30 @@ public class InfinityModeController : MonoBehaviour
         UpdateDisplay();
         UpdateBackground();
         UpdateDifficultyText();
+
+        if (SaveManager.Instance != null && characterIcon != null)
+        {
+            // Pega o Animator do ícone do personagem
+            Animator charAnimator = characterIcon.GetComponent<Animator>();
+            if (charAnimator != null)
+            {
+                // Pede ao SaveManager o controller da skin equipada
+                RuntimeAnimatorController equippedController = SaveManager.Instance.GetEquippedSkinController();
+                if (equippedController != null)
+                {
+                    // Atribui o novo "cérebro" de animação
+                    charAnimator.runtimeAnimatorController = equippedController;
+                }
+                else
+                {
+                    Debug.LogWarning("Nenhum Animator Controller de skin foi encontrado!");
+                }
+            }
+            else
+            {
+                Debug.LogError("O objeto CharacterIcon não tem um componente Animator!");
+            }
+        }
     }
 
     void OnDestroy()
@@ -126,6 +150,16 @@ public class InfinityModeController : MonoBehaviour
         {
             currentTime = 0;
             isGamePaused = true;
+            Debug.Log("Time's up! Game Over. Final Score: " + score);
+
+            if (SaveManager.Instance != null)
+            {
+                SaveManager.Instance.AddInfinityModeScore(score);
+            }
+            else
+            {
+                Debug.LogError("ERRO: SaveManager não encontrado para salvar o score do Modo Infinito!");
+            }
             if (gameOverPanel != null) gameOverPanel.SetActive(true);
         }
 
@@ -301,6 +335,7 @@ public class InfinityModeController : MonoBehaviour
 
             if (characterIcon != null) characterIcon.anchoredPosition = startPosition.anchoredPosition;
 
+            SaveManager.Instance.UnlockRandomSkin();
             Debug.Log("LEVEL UP! Changing background and resetting character.");
         }
     }

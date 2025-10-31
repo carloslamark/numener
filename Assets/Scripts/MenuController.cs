@@ -36,4 +36,9 @@ public class MenuController : MonoBehaviour
     {
         SceneManager.LoadScene("Infinity");
     }
+
+    public void GetToShop()
+    {
+        SceneManager.LoadScene("Shop");
+    }
 }
