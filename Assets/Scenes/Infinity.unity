@@ -1712,7 +1712,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingTime: 120
   timeGainedOnCorrect: 2
-  timeLostOnIncorrect: 10
+  timeLostOnIncorrect: 15
   scoreToCompleteLevel: 30
   feedbackDelay: 0.75
   correctColor: {r: 0.43867922, g: 1, b: 0.6139579, a: 1}

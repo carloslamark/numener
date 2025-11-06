@@ -70,14 +70,15 @@ public class ReportExporter : MonoBehaviour
             if (playerData.storyModeResults != null && playerData.storyModeResults.Count > 0)
             {
                 sb.Append("<h3>Resultados - Modo História</h3>");
-                sb.Append("<table><thead><tr><th>Fase</th><th>Pontos</th></tr></thead><tbody>");
+                sb.Append("<table><thead><tr><th>Fase</th><th>Pontos</th><th>Tempo</th></tr></thead><tbody>");
 
                 // Loop por cada fase, ordenado pelo índice
                 foreach (var phase in playerData.storyModeResults.OrderBy(p => p.phaseIndex))
                 {
                     sb.Append("<tr>");
-                    sb.Append($"<td>{phase.phaseName} (Fase {phase.phaseIndex})</td>");
+                    sb.Append($"<td>{phase.phaseName} (Fase {phase.phaseIndex + 1})</td>");
                     sb.Append($"<td>{phase.score}</td>");
+                    sb.Append($"<td>{phase.timeTaken} segundos</td>");
                     sb.Append("</tr>");
                 }
                 sb.Append("</tbody></table>");

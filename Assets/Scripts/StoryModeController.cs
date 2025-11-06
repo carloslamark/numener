@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -281,12 +282,17 @@ public class StoryModeController : MonoBehaviour
             if (currentPhaseIndex < phaseList.Count)
             {
                 isGamePaused = true;
-                if(nextPhaseText != null) nextPhaseText.text = "Phase '" + currentPhaseConfig.phaseName + "' Complete!";
+                if(nextPhaseText != null) nextPhaseText.text = "Fase '" + currentPhaseConfig.phaseName + "' completa!";
                 if(nextPhasePanel != null) nextPhasePanel.SetActive(true);
             }
             else
             {
                 isGamePaused = true;
+                if (SaveManager.Instance != null)
+                {
+                    SaveManager.Instance.UpdateStoryModeResults(sessionResults);
+                }
+
                 Debug.Log("Game finished");
                 if (saveScorePanel != null) saveScorePanel.SetActive(true);
             }
