@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO; // Para trabalhar com arquivos
 using System.Collections.Generic; // Para usar List<>
+using System.Linq;
 
 public class SaveManager : MonoBehaviour
 {
@@ -306,6 +307,82 @@ public class SaveManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public int GetInfinityHighScore(string profileName)
+    {
+        string filePath = GetSaveFilePath(profileName);
+        if (!File.Exists(filePath))
+        {
+            return 0; // Perfil não existe ou não tem arquivo
+        }
+
+        try
+        {
+            // Lê o arquivo
+            string json = File.ReadAllText(filePath);
+            PlayerData data = JsonUtility.FromJson<PlayerData>(json);
+
+            // Encontra o high score
+            if (data.infinityModeScoreHistory != null && data.infinityModeScoreHistory.Count > 0)
+            {
+                // Usa Linq para encontrar o maior número na lista
+                return data.infinityModeScoreHistory.Max();
+            }
+
+            return 0; // Lista de score vazia
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Falha ao ler high score do perfil '{profileName}': {e.Message}");
+            return 0;
+        }
+    }
+
+    public string GetCurrentProfileName()
+    {
+        if (CurrentProfileName != null)
+            return CurrentProfileName;
+        else return "";
+    }
+
+    public List<PlayerData> LoadAllProfilesForReport()
+    {
+        List<PlayerData> allProfiles = new List<PlayerData>();
+
+        // 'saveFolderPath' is the variable you already use (e.g., ".../Profiles")
+        if (!Directory.Exists(saveFolderPath))
+        {
+            Debug.LogWarning($"[SaveManager] Profiles folder '{saveFolderPath}' does not exist. No report to generate.");
+            return allProfiles; // Return empty list
+        }
+
+        // Find all .json files that start with "profile_"
+        string[] profileFiles = Directory.GetFiles(saveFolderPath, "profile_*.json");
+
+        Debug.Log($"[SaveManager] Found {profileFiles.Length} profiles for the report.");
+
+        // Read each file and convert it from JSON to PlayerData
+        foreach (string filePath in profileFiles)
+        {
+            try
+            {
+                string json = File.ReadAllText(filePath);
+                PlayerData profileData = JsonUtility.FromJson<PlayerData>(json);
+
+                if (profileData != null)
+                {
+                    allProfiles.Add(profileData);
+                }
+            }
+            catch (System.Exception e)
+            {
+                // Protection so one corrupted file doesn't break the whole report
+                Debug.LogError($"[SaveManager] Failed to read profile {filePath} for report. Error: {e.Message}");
+            }
+        }
+
+        return allProfiles;
     }
 
 }

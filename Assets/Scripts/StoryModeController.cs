@@ -27,12 +27,9 @@ public class StoryModeController : MonoBehaviour
 
     [Header("Save Score UI")]
     public GameObject saveScorePanel;
-    public TMP_InputField nameInputField;
 
     [Header("UI Panels")]
-    public GameObject victoryPanel;
     public GameObject nextPhasePanel;
-    public GameObject gameOverPanel;
 
     [Header("UI Elements")]
     public Slider timerSlider;
@@ -123,9 +120,7 @@ public class StoryModeController : MonoBehaviour
         isGamePaused = false;
         
         if (timerSlider != null) timerSlider.value = 0f;
-        if (victoryPanel != null) victoryPanel.SetActive(false);
         if (nextPhasePanel != null) nextPhasePanel.SetActive(false);
-        if (gameOverPanel != null) gameOverPanel.SetActive(false);
         
         UpdateDisplay();
     }
@@ -294,7 +289,6 @@ public class StoryModeController : MonoBehaviour
                 isGamePaused = true;
                 Debug.Log("Game finished");
                 if (saveScorePanel != null) saveScorePanel.SetActive(true);
-                else if (victoryPanel != null) victoryPanel.SetActive(true);
             }
         }
         else
@@ -315,19 +309,6 @@ public class StoryModeController : MonoBehaviour
         finalProgress = Mathf.Clamp01(finalProgress);
 
         characterIcon.anchoredPosition = Vector2.Lerp(startPosition.anchoredPosition, endPosition.anchoredPosition, finalProgress);
-    }
-
-    public void CreateUser()
-    {
-        Debug.Log(sessionResults.Count);
-        Debug.Log(sessionResults[0].score);
-
-        //UserHistory user = new UserHistory(nameInputField.text, sessionResults);
-        //string json = JsonUtility.ToJson(user);
-
-        //reference.Child("users").Child(userId).SetRawJsonValueAsync(json);
-
-        GoToGameModes();
     }
 
     public void GoToNextPhase()

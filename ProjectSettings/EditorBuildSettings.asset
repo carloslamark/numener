@@ -12,11 +12,14 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 21fbc6b81e788ba4e96edd3d3cf7852e
   - enabled: 1
+    path: Assets/Scenes/GameModes.unity
+    guid: 47f9674f50ff06944b23bce6352777c8
+  - enabled: 1
     path: Assets/Scenes/Shop.unity
     guid: 901a3dcc308c3c746af01006c9b3c825
   - enabled: 1
-    path: Assets/Scenes/GameModes.unity
-    guid: 47f9674f50ff06944b23bce6352777c8
+    path: Assets/Scenes/Leaderboard.unity
+    guid: d87b81a2f7bf2e84aadb511f192437e6
   - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: 026eb562eb686414395df0f83cba41a0
