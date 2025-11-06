@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e47be6d69b087439f6334ab0c8fb32, type: 3}
+  m_Name: SuperManSkin
+  m_EditorClassIdentifier: Assembly-CSharp::SkinData
+  skinID: superman
+  skinName: Super Numener
+  shopIcon: {fileID: -4820397567141378038, guid: f429bae4b1da9b3498049ab80d3cb6a5, type: 3}
+  animatorController: {fileID: 9100000, guid: ace8e4cf39425ea40b1c091366ef6730, type: 2}
+  isUnlockedByDefault: 0

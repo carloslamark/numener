@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e47be6d69b087439f6334ab0c8fb32, type: 3}
+  m_Name: SpiderManSkin
+  m_EditorClassIdentifier: Assembly-CSharp::SkinData
+  skinID: spiderman
+  skinName: Numener Aranha
+  shopIcon: {fileID: -3327941734257705272, guid: e675ce6df51e9a1479b43bfc5509833d, type: 3}
+  animatorController: {fileID: 9100000, guid: 023afccea10dea6488a363d06815d08c, type: 2}
+  isUnlockedByDefault: 0
