@@ -52,7 +52,6 @@ public class TutorialController : MonoBehaviour
         }
     }
 
-    // A VERSÃO CORRIGIDA
     private void UpdateTutorialUI()
     {
         // 1. Define o sprite (a imagem) do nosso "quadro"

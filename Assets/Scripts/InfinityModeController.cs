@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Globalization;
-
+using System.IO;
 
 [System.Serializable]
 public class DifficultyConfig
@@ -80,6 +80,9 @@ public class InfinityModeController : MonoBehaviour
 
     private Color defaultButtonColor;
 
+    private StringBuilder csvLogBuilder = new StringBuilder();
+    private int iterationCounter = 0;
+
     void Start()
     {
         if (difficultyLevels == null || difficultyLevels.Count != 5)
@@ -88,6 +91,8 @@ public class InfinityModeController : MonoBehaviour
             this.enabled = false;
             return;
         }
+
+        csvLogBuilder.AppendLine("Iteracao;Nivel_Anterior;Tipo_Estimulo;Recompensa_Janela;Estrategia;Decisao_Agente;Nivel_Resultante");
 
         qTable = new float[TOTAL_STATES, TOTAL_ACTIONS];
         LoadQTable();
@@ -107,15 +112,12 @@ public class InfinityModeController : MonoBehaviour
 
         if (SaveManager.Instance != null && characterIcon != null)
         {
-            // Pega o Animator do ícone do personagem
             Animator charAnimator = characterIcon.GetComponent<Animator>();
             if (charAnimator != null)
             {
-                // Pede ao SaveManager o controller da skin equipada
                 RuntimeAnimatorController equippedController = SaveManager.Instance.GetEquippedSkinController();
                 if (equippedController != null)
                 {
-                    // Atribui o novo "cérebro" de animação
                     charAnimator.runtimeAnimatorController = equippedController;
                 }
                 else
@@ -160,13 +162,15 @@ public class InfinityModeController : MonoBehaviour
             {
                 Debug.LogError("ERRO: SaveManager não encontrado para salvar o score do Modo Infinito!");
             }
+
+            SaveTCCLogs();
+
             if (gameOverPanel != null) gameOverPanel.SetActive(true);
         }
 
         UpdateCharacterPosition();
     }
 
-    // --- FUNÇÕES DE CARREGAMENTO E SALVAMENTO ---
     void LoadQTable()
     {
         string savedTable = PlayerPrefs.GetString("QTable_InfinityMode", "");
@@ -217,9 +221,22 @@ public class InfinityModeController : MonoBehaviour
             sb.Append('\n');
         }
 
-        PlayerPrefs.SetString("QTable_InfinityMode", sb.ToString());
+        string tableString = sb.ToString();
+
+        PlayerPrefs.SetString("QTable_InfinityMode", tableString);
         PlayerPrefs.Save();
-        Debug.Log("Q-Table saved to PlayerPrefs.");
+
+        string debugPath = Path.Combine(Application.persistentDataPath, "QTable_Verificacao.csv");
+
+        try
+        {
+            File.WriteAllText(debugPath, tableString);
+            Debug.Log("<color=yellow>Q-TABLE SALVA VISIVELMENTE EM: " + debugPath + "</color>");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Erro ao salvar arquivo de verificação da QTable: " + e.Message);
+        }
     }
 
 
@@ -348,6 +365,11 @@ public class InfinityModeController : MonoBehaviour
 
     void AdjustDifficultyQLearning()
     {
+        int previousDifficultyIndex = currentDifficultyIndex;
+        string difficultyNameBefore = difficultyLevels[currentDifficultyIndex].difficultyName;
+        string displayModeLog = difficultyLevels[currentDifficultyIndex].displayMode.ToString();
+        float rewardLog = rewardSumForWindow;
+
         int currentState = GetCurrentState();
         float maxFutureQ = GetMaxQValue(currentState);
         float oldQValue = qTable[previousState, previousAction];
@@ -355,18 +377,44 @@ public class InfinityModeController : MonoBehaviour
         qTable[previousState, previousAction] = newQValue;
 
         int actionToTake;
+        string strategyLog = "Exploitation";
+
         if (Random.value < explorationRate)
         {
             actionToTake = Random.Range(0, TOTAL_ACTIONS);
+            strategyLog = "Explorar";
         }
         else
         {
             actionToTake = GetBestAction(currentState);
         }
+
         ApplyAction(actionToTake);
 
         previousState = currentState;
         previousAction = actionToTake;
+
+        iterationCounter++;
+
+        string agentDecisionLog = "Manter";
+        if (currentDifficultyIndex > previousDifficultyIndex) agentDecisionLog = "Aumentar";
+        else if (currentDifficultyIndex < previousDifficultyIndex) agentDecisionLog = "Diminuir";
+
+        string difficultyNameAfter = difficultyLevels[currentDifficultyIndex].difficultyName;
+
+        string logLine = string.Format("{0};{1};{2};{3};{4};{5};{6}",
+            iterationCounter,
+            difficultyNameBefore,
+            displayModeLog,
+            rewardLog,
+            strategyLog,
+            agentDecisionLog,
+            difficultyNameAfter
+        );
+
+        csvLogBuilder.AppendLine(logLine);
+        Debug.Log("[TCC LOG]: " + logLine);
+
         rewardSumForWindow = 0;
     }
 
@@ -470,7 +518,6 @@ public class InfinityModeController : MonoBehaviour
         foreach (Transform child in container) { Destroy(child.gameObject); }
         if (container == null) return 0;
 
-        // Ativa o container e desativa os textos correspondentes
         if (container == leftDotsContainer) leftButtonText.gameObject.SetActive(false);
         if (container == rightDotsContainer) rightButtonText.gameObject.SetActive(false);
         container.gameObject.SetActive(true);
@@ -548,5 +595,20 @@ public class InfinityModeController : MonoBehaviour
         Debug.Log("Tentando trocar para o background no índice " + backgroundIndex + ", que é o controller: " + backgroundAnimControllers[backgroundIndex].name);
 
         backgroundAnimator.runtimeAnimatorController = backgroundAnimControllers[backgroundIndex];
+    }
+
+    void SaveTCCLogs()
+    {
+        string filePath = Path.Combine(Application.persistentDataPath, "TCC_QLearning_Log_" + System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".csv");
+
+        try
+        {
+            File.WriteAllText(filePath, csvLogBuilder.ToString());
+            Debug.Log("<color=green>LOG TCC SALVO COM SUCESSO EM: " + filePath + "</color>");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Erro ao salvar log do TCC: " + e.Message);
+        }
     }
 }

@@ -1,15 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.IO;                // Para salvar arquivos
-using System.Linq;              // Para usar .Max() e .OrderBy()
-using System.Text;              // Para o StringBuilder (MUITO importante)
+using System.IO;                
+using System.Linq;              
+using System.Text;             
 
-// Este é o script que você vai colocar no seu objeto "ReportSystem"
 public class ReportExporter : MonoBehaviour
 {
-    // ======================================================================
-    // FUNÇÃO DE BUSCAR DADOS (Igual a antes, perfeita)
-    // ======================================================================
     private List<PlayerData> GetAllPlayerData()
     {
         Debug.Log("Fetching REAL data from SaveManager...");
@@ -21,14 +17,11 @@ public class ReportExporter : MonoBehaviour
         return SaveManager.Instance.LoadAllProfilesForReport();
     }
 
-    // ======================================================================
-    // NOVA FUNÇÃO DO BOTÃO (Gerar HTML)
-    // ======================================================================
+   
     public void GenerateHtmlReport()
     {
         Debug.Log("Starting HTML report generation...");
 
-        // 1. OBTER OS DADOS
         List<PlayerData> allPlayerData = GetAllPlayerData();
         if (allPlayerData == null || allPlayerData.Count == 0)
         {
@@ -36,29 +29,23 @@ public class ReportExporter : MonoBehaviour
             return;
         }
 
-        // 2. CONSTRUIR A STRING HTML
-        // Usamos StringBuilder, que é muito eficiente para montar strings longas
         StringBuilder sb = new StringBuilder();
 
-        // Cabeçalho do HTML e o CSS "bonitinho"
         sb.Append("<!DOCTYPE html><html lang=\"pt-br\"><head>");
         sb.Append("<meta charset=\"UTF-8\">");
         sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
         sb.Append("<title>Relatório de Pontuação - Numener</title>");
-        sb.Append(GetCssStyle()); // Pega o bloco de CSS da função abaixo
+        sb.Append(GetCssStyle());
         sb.Append("</head><body>");
 
-        // Corpo do HTML
         sb.Append("<div class=\"container\">");
         sb.Append("<h1>Relatório de Pontuação - Numener</h1>");
 
-        // Loop por cada jogador
-        foreach (var playerData in allPlayerData.OrderBy(p => p.playerName)) // Ordena por nome
+        foreach (var playerData in allPlayerData.OrderBy(p => p.playerName)) 
         {
             sb.Append("<div class=\"player-card\">");
             sb.Append($"<h2>{playerData.playerName}</h2>");
 
-            // --- Info: Modo Infinito ---
             int highScore = 0;
             if (playerData.infinityModeScoreHistory != null && playerData.infinityModeScoreHistory.Count > 0)
             {
@@ -66,13 +53,11 @@ public class ReportExporter : MonoBehaviour
             }
             sb.Append($"<p><strong>Recorde Modo Infinito:</strong> {highScore}</p>");
 
-            // --- Tabela: Modo História ---
             if (playerData.storyModeResults != null && playerData.storyModeResults.Count > 0)
             {
                 sb.Append("<h3>Resultados - Modo História</h3>");
                 sb.Append("<table><thead><tr><th>Fase</th><th>Pontos</th><th>Tempo</th></tr></thead><tbody>");
 
-                // Loop por cada fase, ordenado pelo índice
                 foreach (var phase in playerData.storyModeResults.OrderBy(p => p.phaseIndex))
                 {
                     sb.Append("<tr>");
@@ -87,24 +72,22 @@ public class ReportExporter : MonoBehaviour
             {
                 sb.Append("<p>Nenhum resultado no Modo História.</p>");
             }
-            sb.Append("</div>"); // Fim do .player-card
+            sb.Append("</div>"); 
         }
 
-        sb.Append("</div>"); // Fim do .container
+        sb.Append("</div>");
         sb.Append("</body></html>");
 
-        // 3. SALVAR O ARQUIVO HTML
         try
         {
             string htmlString = sb.ToString();
-            string fileName = "relatorio_pontuacao.html"; // Mude a extensão!
+            string fileName = "relatorio_pontuacao.html";
             string path = Path.Combine(Application.persistentDataPath, fileName);
 
-            File.WriteAllText(path, htmlString, Encoding.UTF8); // Força UTF-8 para acentos
+            File.WriteAllText(path, htmlString, Encoding.UTF8);
 
             Debug.Log($"Report saved successfully at: {path}");
 
-            // ABRIR A PASTA!
             Application.OpenURL(Application.persistentDataPath);
         }
         catch (System.Exception ex)
@@ -113,12 +96,8 @@ public class ReportExporter : MonoBehaviour
         }
     }
 
-    // ======================================================================
-    // FUNÇÃO DO CSS (Sinta-se livre para editar!)
-    // ======================================================================
     private string GetCssStyle()
     {
-        // Usamos @"" para criar uma string de múltiplas linhas
         return @"
 <style>
     body {

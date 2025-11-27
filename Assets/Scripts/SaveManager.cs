@@ -199,6 +199,7 @@ public class SaveManager : MonoBehaviour
     {
         if (CurrentPlayerData == null) return;
         CurrentPlayerData.storyModeResults = results;
+        UnlockRandomSkin();
         SaveCurrentProfileData();
     }
 

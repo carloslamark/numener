@@ -1712,7 +1712,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingTime: 120
   timeGainedOnCorrect: 2
-  timeLostOnIncorrect: 15
+  timeLostOnIncorrect: 8
   scoreToCompleteLevel: 30
   feedbackDelay: 0.75
   correctColor: {r: 0.43867922, g: 1, b: 0.6139579, a: 1}
@@ -1729,31 +1729,31 @@ MonoBehaviour:
   leftDotsContainer: {fileID: 812207790}
   rightDotsContainer: {fileID: 1835730948}
   difficultyLevels:
-  - difficultyName: "F\xE1cil"
+  - difficultyName: Facil
     displayMode: 0
     minNumber: 1
     maxNumber: 9
     minDotSize: 0.4
     maxDotSize: 0.8
-  - difficultyName: "M\xE9dio"
+  - difficultyName: Medio
     displayMode: 1
     minNumber: 1
     maxNumber: 5
     minDotSize: 0.4
     maxDotSize: 0.8
-  - difficultyName: "Dif\xEDcil"
+  - difficultyName: Dificil
     displayMode: 2
     minNumber: 1
     maxNumber: 9
     minDotSize: 0.4
     maxDotSize: 0.8
-  - difficultyName: "Muito Dif\xEDcil"
+  - difficultyName: Muito Dificil
     displayMode: 2
     minNumber: 5
     maxNumber: 9
     minDotSize: 0.4
     maxDotSize: 0.8
-  - difficultyName: "Imposs\xEDvel"
+  - difficultyName: Impossivel
     displayMode: 1
     minNumber: 5
     maxNumber: 9
