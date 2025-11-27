@@ -67,7 +67,7 @@ O software foi submetido a uma validação técnica (*Expert Review*) com especi
 ### Passos
 1.  Clone este repositório:
     ```bash
-    git clone [https://github.com/carloslamark/numener.git](https://github.com/carloslamark/numener.git)
+    git clone https://github.com/carloslamark/numener.git
     ```
 2.  Abra o Unity Hub e adicione a pasta do projeto clonado.
 3.  Abra o projeto no Unity Editor.
